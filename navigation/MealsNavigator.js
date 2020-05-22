@@ -9,11 +9,13 @@ import CategoryMealsScreen from "../screens/CategoryMealsScreen";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import Colors from "../constants/Colors";
 import FavoritesScreen from "../screens/FavoritesScreen";
+import FiltersScreen from "../screens/FiltersScreen";
 import { Platform } from "react-native";
+import { createDrawerNavigator } from "react-navigation-drawer";
 
-const defaultStackNavOptions =  {
+const defaultStackNavOptions = {
   headerStyle: {
-    backgroundColor: Platform.OS === "android" ? 'white' : "",
+    backgroundColor: Platform.OS === "android" ? "white" : "",
   },
   headerTintColor:
     Platform.OS === "android" ? Colors.primaryColor : Colors.primaryColor,
@@ -30,17 +32,19 @@ const MealsNavigator = createStackNavigator(
     MealDetail: MealDetailScreen,
   },
   {
-    defaultNavigationOptions:defaultStackNavOptions,
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
-
-const FavNavigator = createStackNavigator({
-  Favorites: FavoritesScreen,
-  MealDetail: MealDetailScreen
-},{
-  defaultNavigationOptions: defaultStackNavOptions
-})
+const FavNavigator = createStackNavigator(
+  {
+    Favorites: FavoritesScreen,
+    MealDetail: MealDetailScreen,
+  },
+  {
+    defaultNavigationOptions: defaultStackNavOptions,
+  }
+);
 
 const tabScreenConfig = {
   Meals: {
@@ -58,7 +62,7 @@ const tabScreenConfig = {
     navigationOptions: {
       tabBarIcon: (tabInfo) => {
         return <Ionicons name="ios-star" size={25} color={tabInfo.tintColor} />;
-      }
+      },
     },
   },
 };
@@ -69,8 +73,8 @@ const MealsFavTabNavigator =
         activeColor: Colors.primaryColor,
         shifting: true,
         barStyle: {
-          backgroundColor: 'white'
-        }
+          backgroundColor: "white",
+        },
       })
     : createBottomTabNavigator(tabScreenConfig, {
         tabBarOptions: {
@@ -78,4 +82,13 @@ const MealsFavTabNavigator =
         },
       });
 
-export default createAppContainer(MealsFavTabNavigator);
+const FilterNavigator = createStackNavigator({
+  Filters: FiltersScreen,
+});
+
+const MainNavigator = createDrawerNavigator({
+  MealsFavs: MealsFavTabNavigator,
+  Filters: FilterNavigator,
+});
+
+export default createAppContainer(MainNavigator);
