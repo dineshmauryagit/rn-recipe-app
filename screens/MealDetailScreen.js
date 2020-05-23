@@ -41,15 +41,7 @@ const MealDetailScreen = (props) => {
       {selectedMeal.steps.map((step) => (
         <ListItem key={step}>{step}</ListItem>
       ))}
-      <View style={styles.screen}>
-        <Text>{selectedMeal.title}</Text>
-        <Button
-          title="Go Back to Categories"
-          onPress={() => {
-            props.navigation.popToTop();
-          }}
-        />
-      </View>
+     
     </ScrollView>
   );
 };
